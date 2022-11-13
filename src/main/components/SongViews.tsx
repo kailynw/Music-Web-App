@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Formatter from '../util/formatter'
-import '../css/SongViews.scss'
+import '../css/components/SongViews.scss'
 
 interface NumberOfSongViewsProps{
     numberOfSongViews:number

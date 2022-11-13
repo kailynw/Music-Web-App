@@ -5,6 +5,9 @@ import {
     selectCurrentlyViewedUser,
     fetchUserById
 } from '../reducer/usersReducer';
+import { Container, Grid } from "@mui/material";
+
+import "../css/components/UserProfileComponent.scss"
 
 const UserProfileComponent = ()=>{
     const {userId} = useParams();
@@ -16,10 +19,18 @@ const UserProfileComponent = ()=>{
     }, [])
     
     return(
-        <div>
-            <div>{`User id: ${userId}`}</div>
-            <div>{`User profile info: ${JSON.stringify(currentlyViewedUser)}`}</div>
-        </div>
+        <Container id="user-profile-container">
+            <Grid container>
+                <Grid id="user-profile-header" xs={12}>
+                    
+                </Grid>
+                <Grid xs={6}>
+                    <div>{`User id: ${userId}`}</div>
+                </Grid><Grid xs={6}>
+                    <div>{`User id: ${userId}`}</div>
+                </Grid>
+            </Grid>
+        </Container>
     )
 }
 

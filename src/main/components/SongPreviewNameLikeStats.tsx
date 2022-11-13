@@ -1,7 +1,7 @@
 import React from "react";
 import SongViews from "./SongViews";
 import LikeButton from "./LikeButton";
-import "../css/SongPreviewNameLikeStats.scss"
+import "../css/components/SongPreviewNameLikeStats.scss"
 
 interface SongPreviewNameLikeStatsPropsType{
     songName: string,

@@ -17,7 +17,7 @@ import { useAppSelector, useAppDispatch } from "../app/hooks";
 
 
 //CSS
-import "../css/SongPreviewList.scss"
+import "../css/components/SongPreviewList.scss"
 
 const SongGridStylesWrapper = styled(Paper)((({theme})=>({
     

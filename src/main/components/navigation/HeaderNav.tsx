@@ -22,7 +22,7 @@ import app_icon from '../../../assets/soundwave-app-icon.png'
 import { Link } from "react-router-dom";
 import { selectNavigationInformation, NavigationInformationType } from "../../reducer/navigationReducer";
 import { useAppSelector } from "../../app/hooks";
-import '../../css/HeaderNav.scss'
+import '../../css/components/navigation/HeaderNav.scss'
 
 const NavButtonStyles: SxProps<Theme> = {
     color: colors.PRIMARY_TEXT_COLOR,

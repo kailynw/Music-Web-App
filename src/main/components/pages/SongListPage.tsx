@@ -10,7 +10,7 @@ import {
 } from "../../reducer/navigationReducer";
 
 //CSS
-import "../../css/App.scss"
+import "../../css/components/App.scss"
 
 const SongListPage = ()=>{
      
