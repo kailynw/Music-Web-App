@@ -1,7 +1,8 @@
+@import 'utils/colors.scss';
+
 .Page {
-  height: 100%;
   text-align: center;
-  background-color: #1F1D36;
+  background-color: $PRIMARY_BACKGROUND_COLOR;
 }
 
 .App-logo {

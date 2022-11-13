@@ -1,5 +1,11 @@
 import React, {useState} from 'react'
-import {Box, Tabs, Tab, Typography, createTheme, styled} from '@mui/material'
+import {
+  Box, Tabs,
+  Tab, Typography, 
+  Theme, createTheme,
+  styled, SxProps
+} from '@mui/material'
+import colors from '../../css/InlineStyles/colors'; 
 import "../../css/SongListNav.scss"
 
 interface StyledTabsProps {
@@ -37,17 +43,21 @@ const StyledTab = styled((props: StyledTabProps) => (
   fontWeight: theme.typography.fontWeightRegular,
   fontSize: theme.typography.pxToRem(15),
   marginRight: theme.spacing(1),
-  color: 'white',
+  color: colors.SECONDARY_TEXT_COLOR,
   '&.Mui-selected': {
-    color: '#E9A6A6',
+    color: colors.PRIMARY_TEXT_COLOR,
   },
   '&.Mui-focusVisible': {
     backgroundColor: 'rgba(100, 95, 228, 0.32)',
   },
 }));
 
+const BoxStyles: SxProps<Theme> = {
+  borderBottom: 0.5,
+  // borderColor: colors.PRIMARY_HEADER_BOTTOM_BORDER_COLOR
+}
+
 const SongListNav = () =>{
-    
     const [value, setValue] = useState(0)
     
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -57,7 +67,7 @@ const SongListNav = () =>{
 
     return(
         <div>
-            <Box sx={{ borderBottom: 1, borderColor: '#3F3351' }}>
+            <Box sx={BoxStyles}>
                 <StyledTabs value={value} onChange={handleTabChange}>
                     <StyledTab label="Songs"/>
                     <StyledTab label="Playlist"/>

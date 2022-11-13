@@ -1,9 +1,12 @@
+@import "utils/colors.scss";
+
 .user-profile-link{
     text-decoration: none;
-    color: #E9A6A6
+    color: $PRIMARY_TEXT_COLOR
 }
 
 .user-profile-link:hover{
     text-decoration: none;
-    color: #f9c8c8;
+    color: $PRIMARY_HOVER_TEXT_COLOR;
+    transition: 700ms
 }
