@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   Box, Tabs,
   Tab, Typography, 
   Theme, createTheme,
   styled, SxProps
 } from '@mui/material'
-import colors from '../../css/InlineStyles/colors'; 
-import "../../css/SongListNav.scss"
+// import { TabPanel } from '@mui/material';
+import colors from '../css/InlineStyles/colors'; 
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -69,9 +69,9 @@ const StyledTab = styled((props: StyledTabProps) => (
   fontWeight: theme.typography.fontWeightRegular,
   fontSize: theme.typography.pxToRem(15),
   marginRight: theme.spacing(1),
-  color: colors.SECONDARY_TEXT_COLOR,
+  color: colors.PRIMARY_TEXT_COLOR,
   '&.Mui-selected': {
-    color: colors.PRIMARY_TEXT_COLOR,
+    color: colors.SECONDARY_TEXT_COLOR,
   },
   '&.Mui-focusVisible': {
     backgroundColor: 'rgba(100, 95, 228, 0.32)',
@@ -83,7 +83,7 @@ const BoxStyles: SxProps<Theme> = {
   borderColor: colors.PRIMARY_HEADER_BOTTOM_BORDER_COLOR
 }
 
-const SongListNav = () =>{
+const UserProfileSongPreviewTabs = () =>{
     const [value, setValue] = useState(0)
     
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -95,16 +95,16 @@ const SongListNav = () =>{
         <div>
             <Box sx={BoxStyles}>
                 <StyledTabs value={value} onChange={handleTabChange}>
-                    <StyledTab label="Songs"/>
-                    <StyledTab label="Playlist"/>
-                    <StyledTab label="Likes"/>
+                    <StyledTab label="My Tracks"/>
+                    <StyledTab label="Playlists"/>
+                    <StyledTab label="Reposts"/>
                 </StyledTabs>
             </Box>
-            {/* <TabPanel value={value} index={0}> Item One </TabPanel>
+            <TabPanel value={value} index={0}> Item One </TabPanel>
             <TabPanel value={value} index={1}>Item Two </TabPanel>
-            <TabPanel value={value} index={2}>Item Three </TabPanel> */}
+            <TabPanel value={value} index={2}>Item Three </TabPanel>
         </div>
     )
 }
 
-export default SongListNav;
+export default UserProfileSongPreviewTabs;

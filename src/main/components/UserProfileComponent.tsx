@@ -1,33 +1,79 @@
 import React, {useEffect} from "react";
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {useParams} from 'react-router-dom';
+import { 
+    Container, Grid,
+    Avatar, SxProps, 
+    Theme
+} from "@mui/material";
+import UserProfileInformationContainer from "./UserProfileInformationContainer";
+
+//Redux
 import {
     selectCurrentlyViewedUser,
-    fetchUserById
+    fetchUserById, UserType
 } from '../reducer/usersReducer';
-import { Container, Grid } from "@mui/material";
+import { Nullable } from "../types/types"
 
-import "../css/components/UserProfileComponent.scss"
+import colors from "../css/InlineStyles/colors";
 
+const ContainerStyles: SxProps<Theme> ={
+    position: "relative",
+    top: "30px",
+    color: colors.PRIMARY_TEXT_COLOR
+}
+
+const AvatarStyles: React.CSSProperties = {
+    width: "200px",
+    height: "200px",
+    left:"5%",
+    top:"45%"
+
+}
 const UserProfileComponent = ()=>{
     const {userId} = useParams();
-    const currentlyViewedUser = useAppSelector(selectCurrentlyViewedUser)
+    const currentlyViewedUser: Nullable<UserType> = useAppSelector(selectCurrentlyViewedUser)
     const dispatch = useAppDispatch();
 
+    console.log("current: ", currentlyViewedUser && currentlyViewedUser.instagramUrl)
     useEffect(()=>{
         dispatch(fetchUserById(userId))
+        updateHeadlineBackgroundImage()
     }, [])
+
+    const updateHeadlineBackgroundImage = ()=>{
+        if(currentlyViewedUser && currentlyViewedUser.profilePictureUrl){
+            const profilePicture = currentlyViewedUser.profilePictureUrl
+            const UpdatedHeadlineContainerStyles: React.CSSProperties = {
+                backgroundImage: `url(${profilePicture})`,
+                backgroundSize: "cover",
+	            backgroundRepeat:"no-repeat",
+                backgroundPosition: "center center",
+                width: "100%",
+                height: "200px",
+            }
+            return UpdatedHeadlineContainerStyles
+        }else{
+            const HeadlineContainerStyles: React.CSSProperties = {
+                backgroundColor: "grey",
+                width: "100%",
+                height: "200px"
+            }
+            return HeadlineContainerStyles
+        }
+    }
     
     return(
-        <Container id="user-profile-container">
+        <Container sx={ContainerStyles} >
             <Grid container>
-                <Grid id="user-profile-header" xs={12}>
-                    
+                <Grid item xs={12}>
+                    <div style={updateHeadlineBackgroundImage()}>
+                        <Avatar sx={AvatarStyles} alt="Place user name here" src="https://source.unsplash.com/random/400x400"/>
+                    </div>
                 </Grid>
-                <Grid xs={6}>
-                    <div>{`User id: ${userId}`}</div>
-                </Grid><Grid xs={6}>
-                    <div>{`User id: ${userId}`}</div>
+
+                <Grid item xs={12}>
+                    <UserProfileInformationContainer/>
                 </Grid>
             </Grid>
         </Container>

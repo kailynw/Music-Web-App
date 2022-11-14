@@ -1,4 +1,6 @@
 import React from "react"
+import { useAppSelector } from "../../app/hooks";
+import { Link } from "react-router-dom";
 import {styled, Theme, ThemeProvider, createTheme, SxProps} from "@mui/material/styles";
 import { 
     AppBar, Box, 
@@ -17,12 +19,17 @@ import {
 } from '@mui/icons-material';
 
 import colors from '../../css/InlineStyles/colors'
-import {HeaderStyles} from '../../css/InlineStyles/ReusableStyles'
 import app_icon from '../../../assets/soundwave-app-icon.png'
-import { Link } from "react-router-dom";
 import { selectNavigationInformation, NavigationInformationType } from "../../reducer/navigationReducer";
-import { useAppSelector } from "../../app/hooks";
 import '../../css/components/navigation/HeaderNav.scss'
+
+const HeaderStyles: SxProps<Theme> = {
+    position: "relative",
+    paddingLeft: "100px",
+    boxShadow: "0 0 30px 0 rgba(0, 0, 0, 0.9), 0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+    backgroundColor: colors.PRIMARY_HEADER_BACKGROUND_COLOR,
+    height: "15px"
+}
 
 const NavButtonStyles: SxProps<Theme> = {
     color: colors.PRIMARY_TEXT_COLOR,
@@ -36,16 +43,6 @@ const NavButtonStyles: SxProps<Theme> = {
 
 const AppIconNavButtonStyles: SxProps<Theme> = {
     paddingRight:"3%",
-}
-
-const AppIconStyles: SxProps<Theme> = {
-    color: colors.PRIMARY_TEXT_COLOR,
-    fontSize: "15px",
-    paddingLeft:"20px",
-    paddingRight:"20px",
-    "&:hover":{
-        color: colors.PRIMAY_HOVER_TEXT_COLOR
-    }
 }
 
 const AvatarStyles: SxProps<Theme> = {

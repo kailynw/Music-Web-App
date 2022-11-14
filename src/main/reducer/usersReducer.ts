@@ -14,11 +14,13 @@ export interface UserType {
     userId: number,
     userName: string,
     numberOfFollowing: number,
-    numberOfFollers: number,
+    numberOfFollowers: number,
     bio: Nullable<string>,
-    instagrameUrl: Nullable<string>,
+    instagramUrl: Nullable<string>,
+    profilePictureUrl: Nullable<string>
     createdDate: string
-    songList: Nullable<Array<SongType>>
+    songList: Nullable<Array<SongType>>,
+    test: string
 }
 
 const initialState: UsersStateType = {
@@ -29,8 +31,7 @@ const initialState: UsersStateType = {
 export const fetchUserById = createAsyncThunk(UsersActionTypes.FETCH_USER_BY_ID, async (userId: any)=>{
     const getUserByIdEndpoint = `${UsersEndpoints.GET_USERS}/${userId}`
     const response = await axios.get(getUserByIdEndpoint)
-    console.log(response)
-    return response.data
+    return response.data ;
 })
 
 const usersSlice = createSlice({
@@ -40,7 +41,7 @@ const usersSlice = createSlice({
     extraReducers: (builder)=>{
         builder
             .addCase(fetchUserById.fulfilled, (state, action: PayloadAction<UserType>)=>{
-                console.log(action.payload)
+                console.log("payload: ",action.payload)
                 state.currentlyViewedUser = action.payload
             })        
     }
