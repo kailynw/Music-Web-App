@@ -1,38 +1,38 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import HeaderNav from "../navigation/HeaderNav";
 import SongPreviewList from '../SongPreviewList';
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 //Redux
-import { 
-    selectNavigationInformation, 
+import {
+    selectNavigationInformation,
     setActivePage, NavigationInformationType
 } from "../../reducer/navigationReducer";
 
 //CSS
 import "../../css/components/App.scss"
 
-const SongListPage = ()=>{
-     
+const SongListPage = () => {
+
     const navigationInformation = useAppSelector(selectNavigationInformation)
     const dispatch = useAppDispatch();
     const updatedNavigationInformation: NavigationInformationType = {
-        homePage:{
+        homePage: {
             isActive: true
         },
-        userProfilePage:{
+        userProfilePage: {
             isActive: false
         }
     }
-        
-    useEffect(()=>{
+
+    useEffect(() => {
         dispatch(setActivePage(updatedNavigationInformation))
     }, []);
 
     return (
         <div className="Page">
-            <HeaderNav/>
-            <SongPreviewList/>
+            <HeaderNav />
+            <SongPreviewList />
         </div>
     )
 }

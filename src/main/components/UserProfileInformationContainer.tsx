@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react"
-import { 
-    Container, Grid, SxProps, Theme 
+import React, { useState, useEffect } from "react"
+import {
+    Container, Grid, SxProps, Theme
 } from "@mui/material";
 
 import UserProfileSongPreviewTabs from "./UserProfileSongPreviewTabs";
@@ -16,16 +16,16 @@ const GridContainerStyles: SxProps<Theme> = {
     paddingTop: "100px"
 }
 
-const UserProfileInformationContainer = ()=>{
-    return(
+const UserProfileInformationContainer = () => {
+    return (
         <Container sx={ContainerStyles}>
             <Grid sx={GridContainerStyles} container>
                 <Grid item xs={7}>
-                    <UserProfileSongPreviewTabs/>
+                    <UserProfileSongPreviewTabs />
                 </Grid>
                 <Grid item xs={1}></Grid>
                 <Grid item xs={4}>
-                    <UserProfileActionButtons/>
+                    <UserProfileActionButtons />
                 </Grid>
             </Grid>
         </Container>

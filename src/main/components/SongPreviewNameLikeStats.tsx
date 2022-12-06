@@ -1,19 +1,19 @@
 import React from "react";
 import SongViews from "./SongViews";
 import LikeButton from "./LikeButton";
-import "../css/components/SongPreviewNameLikeStats.scss"
+import "../css/components/SongPreview.scss"
 
-interface SongPreviewNameLikeStatsPropsType{
+interface SongPreviewNameLikeStatsPropsType {
     songName: string,
-    numberOfSongViews: number
+    numberOfViews: number
 }
 
-const SongPreviewNameLikeStats = (props: SongPreviewNameLikeStatsPropsType)=>{
-    return(
-        <div className="song-preview-name-like-stats">
+const SongPreviewNameLikeStats = (props: SongPreviewNameLikeStatsPropsType) => {
+    return (
+        <div className="name-like-stats-container">
             <span className="name">{props.songName}</span>
-            <SongViews numberOfSongViews={props.numberOfSongViews}/> 
-            <LikeButton/> 
+            <SongViews numberOfViews={props.numberOfViews} />
+            <LikeButton />
         </div>
     )
 }

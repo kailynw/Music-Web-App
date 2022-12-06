@@ -1,0 +1,56 @@
+@import '../utils/colors.scss';
+
+.image {
+  width: 100%;
+  height: 10rem;
+}
+
+.song-preview-details-container {
+  text-align: left;
+  color: $SECONDARY_TEXT_COLOR;
+  font-size: 13px;
+}
+
+.profile-link {
+  text-decoration: none;
+  color: $PRIMARY_TEXT_COLOR
+}
+
+.profile-link:hover {
+  text-decoration: none;
+  color: $PRIMARY_HOVER_TEXT_COLOR;
+  transition: 700ms;
+}
+
+.name-like-stats-container .name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 75%;
+  display: inline-block;
+}
+
+.song-views {
+  $side-spacing: 7px;
+  padding-left: $side-spacing;
+  padding-right: $side-spacing;
+  font-size: 13px;
+  width: 10%;
+}
+
+
+/*User Profile specific styles */
+.user-profile .song-preview-details-container {
+  color: $SECONDARY_TEXT_COLOR;
+  font-size: 13px;
+  padding-left: 20px;
+}
+
+.user-profile .name-like-stats-container .name{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+  width: unset ;
+  padding-right: 10px;
+}

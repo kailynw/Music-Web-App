@@ -1,22 +1,22 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Formatter from '../util/formatter'
-import '../css/components/SongViews.scss'
+import '../css/components/SongPreview.scss'
 
-interface NumberOfSongViewsProps{
-    numberOfSongViews:number
+interface NumberOfSongViewsProps {
+    numberOfViews: number
 }
 
-const SongViews = (props: NumberOfSongViewsProps)=>{
+const SongViews = (props: NumberOfSongViewsProps) => {
     const [numberOfSongViews, setNumberOfSongViews] = useState("0")
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         displayNumberOfSongViews();
-    },[])
-    
-   const displayNumberOfSongViews = ()=>{
-        const songViewFormatted: string = Formatter.numberFormatter(props.numberOfSongViews, 1)
+    }, [])
+
+    const displayNumberOfSongViews = () => {
+        const songViewFormatted: string = Formatter.numberFormatter(props.numberOfViews, 1)
         setNumberOfSongViews(songViewFormatted)
-   }
+    }
 
     return (
         <span className='song-views'>{numberOfSongViews}</span>

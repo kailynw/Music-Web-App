@@ -2,25 +2,25 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from '../app/store';
 import NavigationActionTypes from "../constants/actions/navigationActionTypes";
 
-interface PageAttributesType{
+interface PageAttributesType {
     isActive: boolean
 }
 
-export interface NavigationInformationType{
+export interface NavigationInformationType {
     homePage: PageAttributesType,
     userProfilePage: PageAttributesType
 }
 
-interface NavigatationStateType{
+interface NavigatationStateType {
     navigationInformation: NavigationInformationType
 }
 
 const initialState: NavigatationStateType = {
-    navigationInformation:{
-        homePage:{
+    navigationInformation: {
+        homePage: {
             isActive: true
         },
-        userProfilePage:{
+        userProfilePage: {
             isActive: false
         }
     }
@@ -30,16 +30,16 @@ const navigationSlice = createSlice({
     name: NavigationActionTypes.NAVIGATION_SLICE,
     initialState,
     reducers: {
-        setActivePage: (state, action: PayloadAction<NavigationInformationType>)=>{
+        setActivePage: (state, action: PayloadAction<NavigationInformationType>) => {
             console.log("Action: ", action)
             state.navigationInformation = action.payload
         }
     }
 })
 
-export const {setActivePage} = navigationSlice.actions
+export const { setActivePage } = navigationSlice.actions
 
-export const selectNavigationInformation = (state: RootState) =>{
+export const selectNavigationInformation = (state: RootState) => {
     console.log("Select active pages state: ", state)
     return state.navigation.navigationInformation
 }

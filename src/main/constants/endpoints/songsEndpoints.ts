@@ -1,6 +1,11 @@
 
+const api_host = process.env.REACT_APP_MUSIC_API_HOST
+
 const SongsEndpoints = {
-    GET_SONGS: `${process.env.REACT_APP_MUSIC_API_HOST}/songs`
+    GET_ALL_SONGS: `${api_host}/songs`,
+    GET_SONGS_BY_USER_ID: (userId: string | undefined)=>{
+       return `${api_host}/users/${userId}/songs`
+    }
 }
 
 export default SongsEndpoints;

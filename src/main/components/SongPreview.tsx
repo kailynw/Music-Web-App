@@ -1,27 +1,30 @@
-import React from "react";
-import {Grid} from "@mui/material";
-import LikeButton from "./LikeButton";
-import SongViews from "./SongViews";
-import SongPreviewPostedUserLink from "./SongPreviewPostedUserLInk";
-import SongPreviewNameLikeStats from "./SongPreviewNameLikeStats";
-import {SongType} from '../reducer/songsReducer';
+import React, { useEffect } from "react";
+import { Grid } from "@mui/material";
+import SongPreviewPostedUserLink from "./SongPreviewPostedUserLInk"
+import SongPreviewNameLikeStats from "./SongPreviewNameLikeStats"
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
-interface SongPreviewPropsType{
-    song: SongType
-}
 
-const SongPreview = (props: SongPreviewPropsType)=>{
-    return(
-        <Grid item xs={2.4}>
-            <div>
-                <img className="image" src={props.song.imageUriLocation}/>
-                <div className="song-preview-details"> 
-                    <SongPreviewPostedUserLink userId={props.song.postedUser.userId} userName={props.song.postedUser.userName}/>
-                    <SongPreviewNameLikeStats songName={props.song.songName} numberOfSongViews={props.song.numberOfLikes}/>
-                </div>
-                <hr></hr>
+//Redux
+import { SongPropsType } from "../types/propsTypes"
+ 
+
+//CSS
+import "../css/components/SongPreview.scss"
+
+
+const SongPreview = (props: SongPropsType) => {
+
+
+    return (
+        <div>
+            <img className="image" src={props.song.imageUriLocation} />
+            <div className="song-preview-details-container">
+                <SongPreviewPostedUserLink userId={props.song.postedUser.userId} userName={props.song.postedUser.userName} />
+                <SongPreviewNameLikeStats songName={props.song.songName} numberOfViews={props.song.numberOfViews} />
             </div>
-        </Grid>
+            <hr></hr>
+        </div>
     )
 }
 

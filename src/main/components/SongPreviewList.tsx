@@ -1,53 +1,53 @@
-import React, {useEffect} from "react";
-import {styled, Theme, ThemeProvider, createTheme, SxProps} from "@mui/material/styles";
-import { 
+import React, { useEffect } from "react";
+import { styled, Theme, ThemeProvider, createTheme, SxProps } from "@mui/material/styles";
+import {
     Container,
-    Box, Grid, 
-    CssBaseline, 
+    Box, Grid,
+    CssBaseline,
     Paper
 } from "@mui/material";
 import SongPreview from "./SongPreview";
 
 //Redux
-import { 
-    selectSongList,
-    fetchSongList
+import {
+    selectSongsList,
+    getAllSongsList
 } from "../reducer/songsReducer";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 
 
-//CSS
-import "../css/components/SongPreviewList.scss"
 
-const SongGridStylesWrapper = styled(Paper)((({theme})=>({
-    
+const SongGridStylesWrapper = styled(Paper)((({ theme }) => ({
+
 })));
 
 const ContainerStyles: SxProps<Theme> = {
     position: "relative",
-    paddingTop:"3%",
+    paddingTop: "3%",
     paddingBottom: "3%"
 }
 
-const SongPreviewList = ()=>{
-    
-    const songList = useAppSelector(selectSongList);
+const SongPreviewList = () => {
+
+    const songsList = useAppSelector(selectSongsList);
     const dispatch = useAppDispatch();
-       
-    useEffect(()=>{
-        dispatch(fetchSongList());
+
+    useEffect(() => {
+        dispatch(getAllSongsList());
     }, []);
 
-    return(
-        
+    return (
+
         <div>
             <React.Fragment>
-                {/* <CssBaseline/> */}
-                <Container  sx={ContainerStyles} maxWidth="xl" >
-                    <Box sx={{flexGrow: 1}}>
+                {/* <CssBaseline/>  */}
+                <Container sx={ContainerStyles} maxWidth="xl" >
+                    <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={5}>
-                            {songList && songList.map(song=>(
-                               <SongPreview key={song.songId} song={song}/>
+                            {songsList && songsList.map(song => (
+                                <Grid item xs={2.4}>
+                                    <SongPreview key={song.songId} song={song} />
+                                </Grid>
                             ))}
                         </Grid>
                     </Box>

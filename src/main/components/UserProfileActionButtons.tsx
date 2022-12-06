@@ -1,8 +1,8 @@
-import React, {useState, useEffect, ReactFragment} from 'react'
+import React, { useState, useEffect, ReactFragment } from 'react'
 import { Button, SxProps, Theme } from '@mui/material';
 import {
     Add,
-    HowToReg as AlreadyFollowedIcon, 
+    HowToReg as AlreadyFollowedIcon,
     PersonAddAlt1 as AddFollowIcon,
     IosShare as ShareIcon,
     Edit as EditIcon,
@@ -19,52 +19,52 @@ const ButtonStyles: SxProps<Theme> = {
     marginRight: "5px"
 }
 
-const UserProfileActionButtons = ()=>{
+const UserProfileActionButtons = () => {
     const [isUserFollowed, setIsUserFollowed] = useState(false);
 
-    const displayFollowUserStatus = ()=>{
-        if(isUserFollowed){
-            return(
+    const displayFollowUserStatus = () => {
+        if (isUserFollowed) {
+            return (
                 <>
-                    <AlreadyFollowedIcon/>
+                    <AlreadyFollowedIcon />
                     <span>&nbsp; Following</span>
                 </>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <>
-                    <AddFollowIcon/>
+                    <AddFollowIcon />
                     <span>&nbsp; Follow</span>
                 </>
             )
-        }     
+        }
     }
 
-    const toggleFollowUserStatus = ()=>{
-        if(isUserFollowed){
+    const toggleFollowUserStatus = () => {
+        if (isUserFollowed) {
             console.log("user not being followed")
             setIsUserFollowed(false)
-        }else{
+        } else {
             console.log("user followed")
             setIsUserFollowed(true)
         }
     }
 
-    return(
+    return (
         <div>
             <Button onClick={toggleFollowUserStatus} sx={ButtonStyles}>
                 {displayFollowUserStatus()}
             </Button>
             <Button sx={ButtonStyles}>
-                <ShareIcon/>
+                <ShareIcon />
                 <span>Share</span>
             </Button>
             <Button sx={ButtonStyles}>
-                <EditIcon/>
+                <EditIcon />
                 <span>Edit</span>
             </Button>
             <Button sx={ButtonStyles}>
-                <MoreIcon/>
+                <MoreIcon />
             </Button>
         </div>
     )
