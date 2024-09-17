@@ -6,17 +6,18 @@ import { SongPropsType } from "../types/propsTypes";
 
 //CSS
 import "../css/components/SongPreview.scss"
+import songsReducer from "../reducer/songsReducer";
 
 const UserProfileSongPreview = (props: SongPropsType) => {
     return (
         <div className = "user-profile">
             <Grid container>
                 <Grid item xs={3}>
-                    <img className="image" src={props.song.imageUriLocation} />
+                    <img className="image"  src={props.song.imageUriLocation} />
                 </Grid>
 
                 <Grid item xs={9}>
-                    <UserProfileSongPreviewDetailsContainer song={props.song}/>
+                    <UserProfileSongPreviewDetailsContainer  song={props.song}/>
                 </Grid>
             </Grid>
         </div>

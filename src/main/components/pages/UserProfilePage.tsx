@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import HeaderNav from "../navigation/HeaderNav";
-import SongPreviewList from '../SongPreviewList';
+import SongPreviewList from '../songPreview/SongPreviewList';
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import UserProfileComponent from '../UserProfileComponent';
 

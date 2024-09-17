@@ -6,7 +6,8 @@ import SongsActionTypes from "../constants/actions/songsActionTypes";
 import SongEndpoints from "../constants/endpoints/songsEndpoints";
 
 interface SongsStateType {
-    songsList: Nullable<Array<SongType>>
+    songsList: Nullable<Array<SongType>>,
+    activeSong: Nullable<SongType>
 }
 
 export interface SongType {
@@ -14,7 +15,7 @@ export interface SongType {
     songName: string,
     description: Nullable<string>,
     imageUriLocation: string,
-    songUriLocation: Nullable<string>,
+    songUriLocation: string,
     numberOfLikes: number,
     numberOfViews: number,
     postedDate: string,
@@ -27,12 +28,13 @@ export interface PostedUserType {
 }
 
 const initialState: SongsStateType = {
-    songsList: null
+    songsList: null,
+    activeSong: null
 }
 
 export const getAllSongsList = createAsyncThunk(SongsActionTypes.GET_ALL_SONGS, async () => {
     const response = await axios.get(SongEndpoints.GET_ALL_SONGS);
-    console.log(response)
+    console.warn(`CAN YOU SEE THIS!!!!  ${JSON.stringify(response)}`)
     return response.data;
 })
 
@@ -45,7 +47,12 @@ export const getSongsListByUserId = createAsyncThunk(SongsActionTypes.GET_SONGS_
 const songsSlice = createSlice({
     name: SongsActionTypes.SONG_SLICE,
     initialState,
-    reducers: {},
+    reducers: {
+        setActiveSong: (state, action: PayloadAction<SongType>) =>{
+            console.log("reducer setActiveSong payload: ", action.payload)
+            state.activeSong = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getAllSongsList.fulfilled, (state, action: PayloadAction<Array<SongType>>) => {
@@ -59,9 +66,16 @@ const songsSlice = createSlice({
     }
 })
 
+export const { setActiveSong } = songsSlice.actions
+
 export const selectSongsList = (state: RootState) => {
-    console.log("Select:", state)
+    // console.log("Select:", state)
     return state.songs.songsList;
+}
+
+export const selectActiveSong = (state: RootState) => {
+    // console.log("Seclected active song: ", state.songs.activeSong)
+    return state.songs.activeSong
 }
 
 

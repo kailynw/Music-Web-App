@@ -54,3 +54,32 @@
   width: unset ;
   padding-right: 10px;
 }
+
+/*Music Player specific styles */
+
+.audio-player-container{
+  width: 100px;
+  height: 50px;
+  background-color: white;
+}
+
+.current-play-time-song-duration{
+  color: $SECONDARY_TEXT_COLOR;
+  font-size: 13px;
+  margin-left: 10px;
+  padding-left: 2px;
+}
+
+.end-time-song-duration{
+  color: $SECONDARY_TEXT_COLOR;
+  font-size: 13px;
+  margin-left: auto; 
+  margin-right: 0;
+  padding-right: 2px;
+}
+
+.song-time-container{
+  display: flex; 
+  justify-content: space-around;
+  margin-top: 3px;
+}

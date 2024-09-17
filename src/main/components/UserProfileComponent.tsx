@@ -16,7 +16,7 @@ import {
 import { Nullable } from "../types/generalTypes"
 
 import colors from "../css/InlineStyles/colors";
-import SongPreviewMusicPlayer from "./SongPreviewMusicPlayer";
+import SongPreviewMusicPlayer from "./songPreview/SongPreviewMusicPlayer";
 
 const ContainerStyles: SxProps<Theme> = {
     position: "relative",
@@ -76,7 +76,6 @@ const UserProfileComponent = () => {
 
                 <Grid item xs={12}>
                     <UserProfileInformationContainer />
-                    <SongPreviewMusicPlayer/>
                 </Grid>
             </Grid>
         </Container>

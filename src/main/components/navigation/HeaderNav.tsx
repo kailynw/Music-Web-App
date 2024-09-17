@@ -1,4 +1,4 @@
-import React from "react"
+import React , {useState, useEffect} from "react"
 import { useAppSelector } from "../../app/hooks";
 import { Link } from "react-router-dom";
 import { styled, Theme, ThemeProvider, createTheme, SxProps } from "@mui/material/styles";
@@ -18,9 +18,21 @@ import {
     Upload as UploadIcon
 } from '@mui/icons-material';
 
+//Redux
+import { 
+    selectNavigationInformation,
+    NavigationInformationType 
+} from "../../reducer/navigationReducer";
+import { 
+    selectCurrentlyViewedUser,
+    UserType
+ } from "../../reducer/usersReducer";
+
+ import { Nullable } from "../../types/generalTypes";
+
+//CSS
 import colors from '../../css/InlineStyles/colors'
 import app_icon from '../../../assets/soundwave-app-icon.png'
-import { selectNavigationInformation, NavigationInformationType } from "../../reducer/navigationReducer";
 import '../../css/components/navigation/HeaderNav.scss'
 
 const HeaderStyles: SxProps<Theme> = {
@@ -63,22 +75,37 @@ const LinkStyles: React.CSSProperties = {
 
 const HeaderNav = () => {
     const navigationInformation: NavigationInformationType = useAppSelector(selectNavigationInformation);
+    const currentlyViewedUser: Nullable<UserType> = useAppSelector(selectCurrentlyViewedUser);
+    const [profilePictureUrl, setProfilePictureUrl] = useState("");
+    console.log("CURRENTLY VIEWED USER: ", currentlyViewedUser)
+
     const userSettings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-    console.log("nav info header", navigationInformation)
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    }
+    useEffect(()=>{
+        displayUserProfilePicture()
+    }, [currentlyViewedUser])
+    // const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    //     setAnchorElUser(event.currentTarget);
+    // }
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    }
+    // const handleCloseUserMenu = () => {
+    //     setAnchorElUser(null);
+    // }
 
     const applyActiveLinkStyles = (isActive: boolean) => {
         const className = isActive ? "active" : ""
         console.log("class: ", className)
         return className
+    }
+
+    const displayUserProfilePicture = () => {
+        // if(currentlyViewedUser && currentlyViewedUser.profilePictureUrl){
+        //     console.log("yooooooooo")
+        //     setProfilePictureUrl(currentlyViewedUser.profilePictureUrl)
+        // }else{
+        //     setProfilePictureUrl("")
+        // }
     }
 
     return (
@@ -122,7 +149,7 @@ const HeaderNav = () => {
                                 <Link style={{ ...LinkStyles, paddingLeft: "30%" }} to="#">
                                     <span>
                                         <Button sx={NavButtonStyles}>
-                                            <Avatar sx={AvatarStyles} alt="Place user name here" src="https://images.unsplash.com/photo-1669415898207-9e6a9aed2539?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzODQyNDR8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzAyOTg0OTM&ixlib=rb-4.0.3&q=80" />
+                                            <Avatar sx={AvatarStyles} alt="Place user name here" src={profilePictureUrl} />
                                             <span className={applyActiveLinkStyles(navigationInformation.userProfilePage.isActive)}> Profile Name </span>
                                         </Button>
                                     </span>

@@ -31,7 +31,7 @@ const navigationSlice = createSlice({
     initialState,
     reducers: {
         setActivePage: (state, action: PayloadAction<NavigationInformationType>) => {
-            console.log("Action: ", action)
+            // console.log("Action: ", action)
             state.navigationInformation = action.payload
         }
     }
@@ -40,7 +40,7 @@ const navigationSlice = createSlice({
 export const { setActivePage } = navigationSlice.actions
 
 export const selectNavigationInformation = (state: RootState) => {
-    console.log("Select active pages state: ", state)
+    // console.log("Select active pages state: ", state)
     return state.navigation.navigationInformation
 }
 
