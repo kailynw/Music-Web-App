@@ -1,0 +1,14 @@
+@import '../utils/colors.scss';
+
+.text-field{
+    // display: block;
+    padding-bottom: 15px;
+}
+
+.bio{
+    height: 100px !important;
+}
+
+#edit-user-modal-container{
+    background-color: $PRIMARY_BACKGROUND_COLOR !important ;
+}

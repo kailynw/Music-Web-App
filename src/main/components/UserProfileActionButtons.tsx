@@ -1,15 +1,20 @@
 import React, { useState, useEffect, ReactFragment } from 'react'
-import { Button, SxProps, Theme } from '@mui/material';
+import { Button, SxProps, Theme, Box, Modal, Typography } from '@mui/material';
 import {
     Add,
     HowToReg as AlreadyFollowedIcon,
     PersonAddAlt1 as AddFollowIcon,
     IosShare as ShareIcon,
     Edit as EditIcon,
-    MoreHoriz as MoreIcon
+    MoreHoriz as MoreIcon,
+   
 } from '@mui/icons-material';
 
 import colors from '../css/InlineStyles/colors';
+import { EditUserProfileModal } from './modal/EditUserProfileModal';
+import { useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUserAlreadyRegistered } from '../reducer/usersReducer';
 
 const ButtonStyles: SxProps<Theme> = {
     backgroundColor: colors.PRIMARY_BACKGROUND_COLOR,
@@ -19,9 +24,36 @@ const ButtonStyles: SxProps<Theme> = {
     marginRight: "5px"
 }
 
-const UserProfileActionButtons = () => {
-    const [isUserFollowed, setIsUserFollowed] = useState(false);
 
+const style = {
+    position: 'absolute',
+    top: '40%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 900,
+    height: 200,
+    bgcolor: colors.PRIMARY_HEADER_BACKGROUND_COLOR,
+    color: colors.PRIMARY_TEXT_COLOR,
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+
+  };
+
+const UserProfileActionButtons = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const displayModalAfterUserSignUp = searchParams.get("first_time_user") == "true"
+    
+    const dispatch = useDispatch();
+    const [isUserFollowed, setIsUserFollowed] = useState(false);
+    const [displayEditUserModal, setDislayEditUserModal] = useState(false);
+
+    useEffect(()=>{
+        if(displayModalAfterUserSignUp){
+            dispatch(setUserAlreadyRegistered(true))
+            setDislayEditUserModal(true)
+        }
+    },[displayModalAfterUserSignUp])
     const displayFollowUserStatus = () => {
         if (isUserFollowed) {
             return (
@@ -59,13 +91,14 @@ const UserProfileActionButtons = () => {
                 <ShareIcon />
                 <span>Share</span>
             </Button>
-            <Button sx={ButtonStyles}>
+            <Button sx={ButtonStyles} onClick={()=> setDislayEditUserModal(true)}>
                 <EditIcon />
                 <span>Edit</span>
             </Button>
             <Button sx={ButtonStyles}>
                 <MoreIcon />
             </Button>
+            <EditUserProfileModal displayEditUserModal={displayEditUserModal} setDisplayEditUserModal={setDislayEditUserModal}/>
         </div>
     )
 }

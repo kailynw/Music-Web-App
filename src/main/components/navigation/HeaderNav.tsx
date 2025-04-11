@@ -1,7 +1,8 @@
-import React , {useState, useEffect} from "react"
-import { useAppSelector } from "../../app/hooks";
-import { Link } from "react-router-dom";
+import React , {useState, useEffect, useRef} from "react"
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { Link, useNavigate} from "react-router-dom";
 import { styled, Theme, ThemeProvider, createTheme, SxProps } from "@mui/material/styles";
+import { useAuth0 } from "@auth0/auth0-react";
 import {
     AppBar, Box,
     Toolbar, IconButton,
@@ -9,13 +10,14 @@ import {
     Tooltip, Avatar,
     MenuItem, Menu,
     Container, Grid,
-    CssBaseline, Stack
+    CssBaseline, Stack,
+    Alert
 } from "@mui/material"
 
 import {
     Menu as MenuIcon,
     Settings as SettingsIcon,
-    Upload as UploadIcon
+    Upload as UploadIcon,
 } from '@mui/icons-material';
 
 //Redux
@@ -24,7 +26,13 @@ import {
     NavigationInformationType 
 } from "../../reducer/navigationReducer";
 import { 
-    selectCurrentlyViewedUser,
+    loginUser,
+    logoutUser,
+    selectAccessToken,
+    selectUserAlreadyRegistered,
+    selectUserInfo,
+    setUserAccessToken,
+    setUserAlreadyRegistered,
     UserType
  } from "../../reducer/usersReducer";
 
@@ -34,6 +42,10 @@ import {
 import colors from '../../css/InlineStyles/colors'
 import app_icon from '../../../assets/soundwave-app-icon.png'
 import '../../css/components/navigation/HeaderNav.scss'
+import { useDispatch } from "react-redux";
+import { AlertStateType, selectAlertInfo } from "../../reducer/alertReducer";
+import {store} from '../../app/store'
+import { access } from "fs";
 
 const HeaderStyles: SxProps<Theme> = {
     position: "relative",
@@ -74,24 +86,50 @@ const LinkStyles: React.CSSProperties = {
 }
 
 const HeaderNav = () => {
+    const {
+        user,
+        isAuthenticated,
+        loginWithRedirect,
+        logout,
+        getAccessTokenSilently
+      } = useAuth0();
+    const dispatch = useAppDispatch()
     const navigationInformation: NavigationInformationType = useAppSelector(selectNavigationInformation);
-    const currentlyViewedUser: Nullable<UserType> = useAppSelector(selectCurrentlyViewedUser);
-    const [profilePictureUrl, setProfilePictureUrl] = useState("");
-    console.log("CURRENTLY VIEWED USER: ", currentlyViewedUser)
+    const userInfo: Nullable<UserType> = useAppSelector(selectUserInfo);
+    const alertInfo: AlertStateType = useAppSelector(selectAlertInfo)
+    const displayAlert = alertInfo.alertMessage && alertInfo.alertStatus
+    const accessToken = useAppSelector(selectAccessToken)
+    const userAlreadyRegistered = useAppSelector(selectUserAlreadyRegistered)
 
-    const userSettings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const navigate = useNavigate()
+
+    const userSettings = ['Profile', 'Account', 'Dashboard', 'Logout']
+
 
     useEffect(()=>{
-        displayUserProfilePicture()
-    }, [currentlyViewedUser])
-    // const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    //     setAnchorElUser(event.currentTarget);
-    // }
+        if(isAuthenticated && !accessToken){
+            console.log("isAuth: ", isAuthenticated)
+            console.log("access token: ", accessToken)
+    
+            console.log("AUTHENTICATED USE EFFECT TRIGGERED for lOgin!")
+            console.log("getting logged right before silent token")
+            getAccessTokenSilently().then((value: string)=>{
+                console.log("Get token value silent: ," ,value)
+                console.log("inside Get token Silently: ", value)
+                dispatch(setUserAccessToken(value))
+                dispatch(loginUser({accessToken: value, userData: user}))
+            })
+        }
+    }, [isAuthenticated])
 
-    // const handleCloseUserMenu = () => {
-    //     setAnchorElUser(null);
-    // }
+    useEffect(()=>{
+        console.log("Redirected to profile already?: ", userAlreadyRegistered)
+        const firstTimeUserRegistration = userInfo && userInfo.numberOfLogins == 1 && !userAlreadyRegistered
+        if(firstTimeUserRegistration){
+            //Redirect to /profile page
+            navigate(`/user/${userInfo.userId}?first_time_user=true`)
+        }
+    },[userInfo])
 
     const applyActiveLinkStyles = (isActive: boolean) => {
         const className = isActive ? "active" : ""
@@ -99,14 +137,11 @@ const HeaderNav = () => {
         return className
     }
 
-    const displayUserProfilePicture = () => {
-        // if(currentlyViewedUser && currentlyViewedUser.profilePictureUrl){
-        //     console.log("yooooooooo")
-        //     setProfilePictureUrl(currentlyViewedUser.profilePictureUrl)
-        // }else{
-        //     setProfilePictureUrl("")
-        // }
+    const handleLogout = ()=>{
+        dispatch(logoutUser())//Clear user state
+        logout() //Auth0 logout and redirect
     }
+
 
     return (
         <div>
@@ -133,7 +168,7 @@ const HeaderNav = () => {
                                 </Link>
 
                                 {/* Library Button Link - fill in later */}
-                                <Link style={LinkStyles} to="/library">
+                                <Link style={LinkStyles} to="/songs">
                                     <Button sx={NavButtonStyles}>Library</Button>
                                 </Link>
 
@@ -146,23 +181,42 @@ const HeaderNav = () => {
                                 </Link>
 
                                 {/* User Profile Button Link - Fill in later*/}
-                                <Link style={{ ...LinkStyles, paddingLeft: "30%" }} to="#">
-                                    <span>
-                                        <Button sx={NavButtonStyles}>
-                                            <Avatar sx={AvatarStyles} alt="Place user name here" src={profilePictureUrl} />
-                                            <span className={applyActiveLinkStyles(navigationInformation.userProfilePage.isActive)}> Profile Name </span>
-                                        </Button>
-                                    </span>
-                                </Link>
+                                {accessToken && userInfo &&
+                                    <Link  style={{ ...LinkStyles, paddingLeft: "30%" }} to={`/user/${userInfo.userId}`}>
+                                        <span>
+                                            <Button sx={NavButtonStyles}>
+                                                <Avatar sx={AvatarStyles} alt="Place user name here" src={userInfo.profilePictureUrl} />
+                                                <span id="username-link-text" className={applyActiveLinkStyles(navigationInformation.userProfilePage.isActive)}>
+                                                    {userInfo.userName}
+                                                </span>
+                                            </Button>
+                                        </span>
+                                    </Link>
+                                }   
 
-                                <Button>
-                                    <SettingsIcon sx={IconStyles} />
-                                </Button>
+                                {accessToken ? (
+                                    <Button sx={NavButtonStyles} onClick={()=>handleLogout()}>Logout</Button>
+                                ):(
+                                    <Button sx={{ ...NavButtonStyles, paddingLeft: "30%" }} onClick={()=>loginWithRedirect()}>Login/Sign Up</Button>
+                                )}
+
+
+                                {accessToken &&
+                                    <Button>
+                                        <SettingsIcon sx={IconStyles} />
+                                    </Button>
+                                }
                             </Grid>
                         </Grid>
                     </Container>
-
                 </Toolbar>
+
+                {/* /*Global alert */}
+                {(alertInfo.alertStatus && alertInfo.alertMessage) &&
+                    <Alert className="global-alert-banner"variant="filled" severity={alertInfo.alertStatus}>
+                        {alertInfo.alertMessage}
+                    </Alert>
+                }
             </React.Fragment>
         </div>
 

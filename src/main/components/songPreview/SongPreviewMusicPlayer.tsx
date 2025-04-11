@@ -3,6 +3,7 @@ import {
     LinearProgress,Grid,
  } from "@mui/material";
  import {
+     Bolt,
     PlayCircleFilledWhiteOutlined as PlayButton,
     StopCircleOutlined as StopButton
 } from '@mui/icons-material';
@@ -45,7 +46,8 @@ interface MusicPlayerProps{
 
 
 const SongPreviewMusicPlayer = (props: MusicPlayerProps)=>{
-    const [displayPlayButton, setDisplayPlayButton] = useState(true);
+    const [displayPlayButton, setDisplayPlayButton]= useState(true);
+    const [playButtonClickCounter, setPlayButtonClickCounter] = useState(0);
     const [currentPlayTime, setCurrentPlayTime] = useState(0);
     const [playSongPromise, setPlaySongPromise]: [any, any]  = useState(undefined)
     const [progressBarSpeed, setProgressBarSpeed] = useState(1)
@@ -57,7 +59,7 @@ const SongPreviewMusicPlayer = (props: MusicPlayerProps)=>{
         if(props.songIsReadyState && activeSong?.songId == props.song.songId){
             const progressBarCssSelector = `#song-music-player-container-${props.song.songId} .progress-bar`
             const progressBar= document.querySelector(progressBarCssSelector) //Get element based on mulitple tags
-            console.log("prog bar: ", progressBar)
+            // console.log("prog bar: ", progressBar)
             const progressBarWidth = 100
             console.log("prog bar width: ", progressBarWidth)
             if(progressBarWidth){
@@ -73,12 +75,12 @@ const SongPreviewMusicPlayer = (props: MusicPlayerProps)=>{
     }, [props.songIsReadyState, activeSong])
 
     useEffect(()=>{
-       console.log(`playtime: ${currentPlayTime} | current px:  ${currentPlayTime * progressBarSpeed} `)
+    //    console.log(`playtime: ${currentPlayTime} | current px:  ${currentPlayTime * progressBarSpeed} `)
     },[currentPlayTime])
 
     const resetSong = ()=>{
         if(activeSong?.songId != props.song.songId && playSongPromise!=undefined){
-            console.log("play promise: ", playSongPromise)
+            // console.log("play promise: ", playSongPromise)
             playSongPromise.then(()=> {
                 //Pause and reset the sound
                 props.songAudio.pause()
@@ -108,13 +110,18 @@ const SongPreviewMusicPlayer = (props: MusicPlayerProps)=>{
     */
 
     const toggleDisplayPlayButton = () => {
+        if(playButtonClickCounter==0){
+            console.log("first time retrieving song")
+        }
+
         console.log("current value for display play button"+ displayPlayButton) 
         // const updatedDisplayPlayButtonValue: boolean = displayPlayButton == true ? false : true;
         // console.log("current value for display play button updated value before set"+ displayPlayButton)
 
         // togglePlaySong(updatedDisplayPlayButtonValue)
         const displayValue =!displayPlayButton
-        setDisplayPlayButton(displayValue)        
+        setDisplayPlayButton(displayValue)
+        setPlayButtonClickCounter(playButtonClickCounter+1)       
     }
 
     /**
@@ -129,8 +136,8 @@ const SongPreviewMusicPlayer = (props: MusicPlayerProps)=>{
         const playSong = !displayPlayButton && props.songAudio.readyState>0
         // const isActiveSong = activeSong == null || activeSong.songId == props.song.songId
         if(playSong){
-            console.log(`current Song time | ${props.songAudio.currentTime} `)
-            console.log("Playing song: ", props.song)
+            // console.log(`current Song time | ${props.songAudio.currentTime} `)
+            // console.log("Playing song: ", props.song)
             const playSongPromise: Promise<void> = props.songAudio.play()
             setPlaySongPromise(playSongPromise)
             dispatch(setActiveSong(props.song))

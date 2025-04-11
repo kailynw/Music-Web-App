@@ -36,9 +36,10 @@ const secondaryColorButtonStyles: SxProps<Theme> = {
 
 let timeoutId;
 const UserProfileSongPreviewDetailsContainer = (props: SongPropsType)=>{
-    console.info(`SOUND AUDIO PROPS!!!${JSON.stringify(props)}`)
-    console.log(props)
-    const audio = new Audio("https://music-app-upload-bucket.s3.amazonaws.com/test_track.wav?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240917T014549Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIA4DABEEPAVYWO776A%2F20240917%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=5f61584ff07b2750a286f0901cb0d8a5bb5d84bca6f7973318ebfeb43d74de11")
+    // console.info(`SOUND AUDIO PROPS!!!${JSON.stringify(props)}`)
+    console.log(props.song.songPresignedUrl)
+    const songPresignedUrl = props.song.songPresignedUrl ? props.song.songPresignedUrl : undefined
+    const audio = new Audio(songPresignedUrl)
     const[songAudio, setSongAudio] = useState(audio);
     const[songIsReadyState, setSongIsReadyState] = useState(false)
     const [isSongLoaded, setIsSongLoaded] = useState(false)
@@ -56,12 +57,8 @@ const UserProfileSongPreviewDetailsContainer = (props: SongPropsType)=>{
     const timeoutCallback = useCallback((mounted:boolean) => {
         return setTimeout(() => {
             if (mounted) {
-                console.log(`Ready state is ${audio.readyState}`)
                 setSongIsReadyState(audio.readyState == 4)
-                
                 if(audio.readyState != 4) {
-                console.log("song state is not ready")
-
                 timeoutCallback(mounted)
             }
             }

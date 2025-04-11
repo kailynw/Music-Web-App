@@ -19,7 +19,8 @@ export interface SongType {
     numberOfLikes: number,
     numberOfViews: number,
     postedDate: string,
-    postedUser: PostedUserType
+    postedUser: PostedUserType,
+    songPresignedUrl: Nullable<string>
 }
 
 export interface PostedUserType {

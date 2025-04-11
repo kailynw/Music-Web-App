@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import {
     Container, Grid,
     Avatar, SxProps,
@@ -10,7 +10,7 @@ import UserProfileInformationContainer from "./UserProfileInformationContainer";
 
 //Redux
 import {
-    selectCurrentlyViewedUser,
+    selectUserInfo,
     getUserById, UserType
 } from '../reducer/usersReducer';
 import { Nullable } from "../types/generalTypes"
@@ -32,8 +32,9 @@ const AvatarStyles: React.CSSProperties = {
 
 }
 const UserProfileComponent = () => {
+    
     const { userId } = useParams();
-    const currentlyViewedUser: Nullable<UserType> = useAppSelector(selectCurrentlyViewedUser)
+    const currentlyViewedUser: Nullable<UserType> = useAppSelector(selectUserInfo)
     const dispatch = useAppDispatch();
 
     console.log("current: ", currentlyViewedUser && currentlyViewedUser.instagramUrl)
@@ -61,7 +62,7 @@ const UserProfileComponent = () => {
                 width: "100%",
                 height: "200px"
             }
-            return HeadlineContainerStyles
+            return HeadlineContainerStyles 
         }
     }
 

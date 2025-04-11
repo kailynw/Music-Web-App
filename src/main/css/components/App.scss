@@ -4,3 +4,57 @@
   text-align: center;
   background-color: $PRIMARY_BACKGROUND_COLOR;
 }
+
+// .HomePage{
+//   // z-index: -1;
+//   background-color: #4f4d4d;
+// }
+
+// .background-half-1{
+//   position:absolute;
+//   background-color: #CB88FF ;
+//   height: 60%;
+//   width:100%;
+//   // transform: rotate(20deg);
+//   z-index: -1;
+//   // margin-bottom: 4000px;
+// }
+
+// .background-half-1:after {
+//   content: "";
+//   background-color: red;
+//   height: 2px;
+//   width: 100%;
+//   position: absolute;
+//   left: 0;
+//   bottom: 23px;
+//   transform: rotate(-5.5deg);
+// }
+
+.HomePage{
+    background-image: url('../../../assets/moon-bg-2.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.HomePage .content{
+  margin-top: 220px;
+  margin-left: 8%;
+  color: $SECONDARY_TEXT_COLOR;
+  width: 50%;
+  background: rgba(149,149,153, 0.1);
+  padding: 15px;
+  border-radius: 20px;
+  // opacity: 0.1;
+
+}
+
+.HomePage .content h1{
+  font-size: 50px
+}
+
+.HomePage .content p{
+  font-size: 20px;
+}
+
